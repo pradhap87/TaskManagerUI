@@ -1,0 +1,87 @@
+<div class="row">
+  <h1 class="page-header">{{title}}</h1>  
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div *ngIf="errorMsg === true;">
+          <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> Task (and) Priority From (and) Priority To is required
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <input class="form-control" id="txtTask" name="task" placeholder="Task" [(ngModel)]="taskName">
+
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <input class="form-control" id="txtParentTask" placeholder="Parent Task" [(ngModel)]="parentTask">
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <input class="form-control" id="txtPriorityFrom" type="number" placeholder="Priority From" [(ngModel)]="priorityFrom">
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <input class="form-control" id="txtPriorityTo" type="number" placeholder="Priority To"  [(ngModel)]="priorityTo">
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <input class="form-control" id="txtStartDate" placeholder="Start Date"  [(ngModel)]="startDate" required>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <input class="form-control" id="txtEndDate" placeholder="End Date"  [(ngModel)]="endDate">
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <button id="btnFilter" type="submit" class="btn btn-default" (click)='GetTask()'>Filter</button>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Parent</th>
+                  <th>Priority</th>
+                  <th>Start</th>
+                  <th>End</th>
+                  <th>#</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let task of jsonData">
+                  <td class="success">{{task.Task}}</td>
+                  <td class="success">{{task.Parent__ID === null ? "This task has no parent" : task.Parent__ID}}</td>
+                  <td>{{task.Priority}}</td>
+                  <td>{{task.Start_Date |date:'mediumDate'}}</td>
+                  <td>{{task.End_Date | date:'mediumDate'}}</td>
+                  <td  *ngIf="task.status === false;">
+                    <button id="btnEdit" type="submit" class="btn btn-default" [routerLink]="['/update']" [queryParams]="{TaskId: task.Task_ID}">Edit</button> |
+                    <button id="btnEnd" type="submit" class="btn btn-default" [routerLink]="['/end']" [queryParams]="{TaskId: task.Task_ID}">End Task</button> |
+                    <button id="btnDelete" type="submit" class="btn btn-default" [routerLink]="['/delete']" [queryParams]="{TaskId: task.Task_ID}">Delete Task</button>
+                    </td>
+                    <td  *ngIf="task.status === true;">
+                    <button id="btnEdit" type="submit" disabled class="btn btn-default" [routerLink]="['/update']" [queryParams]="{TaskId: task.Task_ID}">Edit</button> |
+                    <button id="btnEnd" type="submit" disabled class="btn btn-default" [routerLink]="['/end']" [queryParams]="{TaskId: task.Task_ID}">End Task</button> |
+                    <button id="btnDelete" type="submit" disabled class="btn btn-default" [routerLink]="['/delete']" [queryParams]="{TaskId: task.Task_ID}">Delete Task</button>
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
